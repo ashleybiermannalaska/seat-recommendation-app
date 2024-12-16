@@ -1,0 +1,113 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "preferences": {
+        "windowSeat": true,
+        "aisleSeat": false,
+        "extraLegroom": false
+      },
+      "feedback": [
+        {
+          "seatId": 101,
+          "rating": 5,
+          "comments": "Great window seat!"
+        },
+        {
+          "seatId": 102,
+          "rating": 3,
+          "comments": "Okay seat, but a bit cramped."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "preferences": {
+        "windowSeat": false,
+        "aisleSeat": false,
+        "extraLegroom": true
+      },
+      "feedback": [
+        {
+          "seatId": 104,
+          "rating": 5,
+          "comments": "Excellent seat with plenty of legroom!"
+        }
+      ]
+    }
+  ],
+  "seats": [
+    {
+      "id": 101,
+      "isWindow": true,
+      "isAisle": false,
+      "hasExtraLegroom": false
+    },
+    {
+      "id": 102,
+      "isWindow": false,
+      "isAisle": true,
+      "hasExtraLegroom": false
+    },
+    {
+      "id": 103,
+      "isWindow": false,
+      "isAisle": false,
+      "hasExtraLegroom": true
+    },
+    {
+      "id": 104,
+      "isWindow": false,
+      "isAisle": false,
+      "hasExtraLegroom": true
+    },
+    {
+      "id": 105,
+      "isWindow": false,
+      "isAisle": true,
+      "hasExtraLegroom": false
+    },
+    {
+      "id": 106,
+      "isWindow": true,
+      "isAisle": false,
+      "hasExtraLegroom": false
+    },
+    {
+      "id": 201,
+      "isWindow": true,
+      "isAisle": false,
+      "hasExtraLegroom": false
+    },
+    {
+      "id": 202,
+      "isWindow": false,
+      "isAisle": true,
+      "hasExtraLegroom": false
+    },
+    {
+      "id": 203,
+      "isWindow": false,
+      "isAisle": false,
+      "hasExtraLegroom": true
+    },
+    {
+      "id": 204,
+      "isWindow": false,
+      "isAisle": false,
+      "hasExtraLegroom": true
+    },
+    {
+      "id": 205,
+      "isWindow": false,
+      "isAisle": true,
+      "hasExtraLegroom": false
+    },
+    {
+      "id": 206,
+      "isWindow": true,
+      "isAisle": false,
+      "hasExtraLegroom": false
+    }
+  ]
+}

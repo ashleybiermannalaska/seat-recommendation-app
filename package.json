@@ -1,0 +1,21 @@
+{
+  "name": "seat-recommendation-app",
+  "version": "1.0.0",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "compile": "npx tsc",
+    "start": "node app.js",
+    "bas": "npm run compile && npm start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lowdb": "^7.0.1",
+    "typescript": "^5.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2"
+  }
+}
