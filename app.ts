@@ -5,6 +5,9 @@ import { JSONFile } from 'lowdb/node';
 import { UserPreferences, Seat, FeedbackData } from './types';
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 // Define & load JSON file for the database
 interface DatabaseSchema {
@@ -18,12 +21,9 @@ await db.read();
 const app = express();
 app.use(cors());
 
-app.get('/', function (req, res) {
-    res.send('Hello World')
-});
-
 app.get('/api/recommendations', (req, res) => {
     const userId = parseInt(req.query.userId as string);
+    const seatNumber = parseInt(req.query.seatNumber as string);
 
     if (!userId) {
         res.json('Please provide a userId as a query parameter.');
@@ -34,7 +34,7 @@ app.get('/api/recommendations', (req, res) => {
     const historicalFeedback: FeedbackData[] = user!.feedback;
     const availableSeats: Seat[] = db.data.seats;
 
-    const recommendedSeats = recommendSeats(userPreferences, availableSeats, historicalFeedback, userId);
+    const recommendedSeats = recommendSeats(userPreferences, availableSeats, historicalFeedback, userId, seatNumber);
 
     res.json(recommendedSeats);
 
@@ -54,6 +54,16 @@ app.get('/api/recommendations', (req, res) => {
     });
 });
 
+// Serve client static files from the React app
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+app.use(express.static(path.join(__dirname, 'seat-recommendation-ui/build')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'seat-recommendation-ui/build', 'index.html'));
+});
+
 app.listen(5001, () => {
     console.log('Server is running on http://localhost:5001');
 });
@@ -64,9 +74,10 @@ app.listen(5001, () => {
  * @param availableSeats List of available seats
  * @param historicalFeedback Historical feedback data
  * @param userId User identifier
+ * @param seatNumber Seat number to get previous opinion on
  * @returns List of recommended seats
  */
-function recommendSeats(userPreferences: UserPreferences, availableSeats: Seat[], historicalFeedback: FeedbackData[], userId: number) {
+function recommendSeats(userPreferences: UserPreferences, availableSeats: Seat[], historicalFeedback: FeedbackData[], userId: number, seatNumber: number): Seat[] {
     const filteredSeats = availableSeats.filter(seat => 
         (userPreferences.windowSeat && seat.isWindow) ||
         (userPreferences.aisleSeat && seat.isAisle) ||
@@ -88,7 +99,8 @@ function recommendSeats(userPreferences: UserPreferences, availableSeats: Seat[]
             previousFeedback: previousFeedback ? {
                 rating: previousFeedback.rating,
                 comments: previousFeedback.comments
-            } : null
+            } : null,
+            previousOpinionOnSeatInQuestion: seatNumber === seat.id ? previousFeedback : null
         };
     });
 }
