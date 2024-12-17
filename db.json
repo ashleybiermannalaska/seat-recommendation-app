@@ -34,6 +34,15 @@
           "comments": "Excellent seat with plenty of legroom!"
         }
       ]
+    },
+    {
+      "id": 3,
+      "preferences": {
+        "windowSeat": false,
+        "aisleSeat": false,
+        "extraLegroom": false
+      },
+      "feedback": []
     }
   ],
   "seats": [

@@ -8,6 +8,7 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import bodyParser from 'body-parser';
 
 // Define & load JSON file for the database
 interface DatabaseSchema {
@@ -20,6 +21,8 @@ await db.read();
 // Set up & start node express server
 const app = express();
 app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/api/recommendations', (req, res) => {
     const userId = parseInt(req.query.userId as string);
@@ -52,6 +55,33 @@ app.get('/api/recommendations', (req, res) => {
             console.log(`Other seats similar to this seat: Seat ID: ${similarSeatIds}`);
         }
     });
+});
+
+// @ts-ignore
+app.post('/api/preferences', async (req, res) => {
+    const { userId, preferences } = req.body;
+
+    if (!userId || !preferences) {
+        return res.status(400).json('Please provide userId and preferences.');
+    }
+
+    let user = db.data.users.find(user => user.id === parseInt(userId));
+    if (!user) {
+        // Create a new user if not found
+        user = {
+            id: parseInt(userId),
+            preferences: preferences,
+            feedback: []
+        };
+        db.data.users.push(user);
+    } else {
+        // Update existing user's preferences
+        user.preferences = preferences;
+    }
+
+    await db.write();
+
+    res.status(200).json('User preferences updated successfully.');
 });
 
 // Serve client static files from the React app

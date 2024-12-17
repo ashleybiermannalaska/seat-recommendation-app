@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 // @ts-ignore
 import UserIntakeForm from "./UserIntakeForm.tsx";
+// @ts-ignore
+import UserPreferencesForm, { UserPreferences } from "./UserPreferencesForm.tsx";
 
 interface Seat {
   id: number;
@@ -21,11 +23,12 @@ interface FeedbackData {
 }
 
 const SeatRecommendation: React.FC = () => {
+  // UserIntakeForm.tsx
   const [seats, setSeats] = useState<Seat[]>([]);
   const [seatInQuestion, setSeatInQuestion] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
 
-  const onFormSubmit = (event: React.FormEvent) => {
+  const handleUserIntakeFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (userId && seatInQuestion) {
       axios
@@ -46,6 +49,33 @@ const SeatRecommendation: React.FC = () => {
     }
   };
 
+  // UserPreferencesForm.tsx
+  const [userIdForPreferences, setUserIdForPreferences] = useState<string>("");
+  const [preferences, setPreferences] = useState<UserPreferences>({
+    windowSeat: false,
+    aisleSeat: false,
+    extraLegroom: false,
+  });
+
+  const handleUserPreferencesFormSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (userIdForPreferences) {
+      axios
+        .post("/api/preferences", { userId: userIdForPreferences, preferences })
+        .then((response) => {
+          console.log(response.data);
+          alert("Preferences updated successfully!");
+        })
+        .catch((error) => {
+          console.error("There was an error updating the preferences!", error);
+          alert("There was an error updating the preferences.");
+        });
+    } else {
+      alert("Please enter User ID.");
+    }
+  };
+
+  // Other code
   const seatInQuestionFeedback = seats.find(
     (seat) => seat.id === parseInt(seatInQuestion)
   );
@@ -57,7 +87,7 @@ const SeatRecommendation: React.FC = () => {
         userId={userId}
         onSeatChange={setSeatInQuestion}
         onUserIdChange={setUserId}
-        onSubmit={onFormSubmit}
+        onSubmit={handleUserIntakeFormSubmit}
       />
       <div>
         <h1>Your Previous Opinions on Seat</h1>
@@ -112,6 +142,13 @@ const SeatRecommendation: React.FC = () => {
           ))}
         </ul>
       </div>
+      <UserPreferencesForm
+        userIdForPreferences={userIdForPreferences}
+        preferences={preferences}
+        onUserIdForPreferencesChange={setUserIdForPreferences}
+        onPreferencesChange={setPreferences}
+        onSubmit={handleUserPreferencesFormSubmit}
+      />
     </div>
   );
 };
