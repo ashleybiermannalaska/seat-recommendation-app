@@ -6,16 +6,20 @@
   "scripts": {
     "compile": "npx tsc",
     "start": "node app.js",
-    "bas": "npm run compile && npm start"
+    "server": "npm run compile && npm start"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
     "lowdb": "^7.0.1",
     "typescript": "^5.7.2"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
     "@types/node": "^22.10.2"
   }
 }
