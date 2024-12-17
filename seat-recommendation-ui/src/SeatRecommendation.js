@@ -9,22 +9,6 @@ const SeatRecommendation = () => {
     const [seats, setSeats] = useState([]);
     const [seatInQuestion, setSeatInQuestion] = useState("");
     const [userId, setUserId] = useState("");
-    const handleUserIntakeFormSubmit = (event) => {
-        event.preventDefault();
-        if (userId && seatInQuestion) {
-            axios
-                .get(`/api/recommendations?userId=${userId}&seatNumber=${seatInQuestion}`)
-                .then((response) => {
-                setSeats(response.data);
-            })
-                .catch((error) => {
-                console.error("There was an error fetching the recommendations!", error);
-            });
-        }
-        else {
-            alert("Please enter both User ID and Seat Number.");
-        }
-    };
     // UserPreferencesForm.tsx
     const [userIdForPreferences, setUserIdForPreferences] = useState("");
     const [preferences, setPreferences] = useState({
@@ -37,6 +21,23 @@ const SeatRecommendation = () => {
         rating: 0,
         comments: "",
     });
+    const handleUserIntakeFormSubmit = (event) => {
+        event.preventDefault();
+        if (userId && seatInQuestion) {
+            axios
+                .get(`/api/recommendations?userId=${userId}&seatNumber=${seatInQuestion}`)
+                .then((response) => {
+                setSeats(response.data.recommendedSeats);
+                setPreferences(response.data.preferences);
+            })
+                .catch((error) => {
+                console.error("There was an error fetching the recommendations!", error);
+            });
+        }
+        else {
+            alert("Please enter both User ID and Seat Number.");
+        }
+    };
     const handleUserPreferencesFormSubmit = (event) => {
         event.preventDefault();
         if (userIdForPreferences) {

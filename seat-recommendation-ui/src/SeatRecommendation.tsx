@@ -12,6 +12,19 @@ const SeatRecommendation: React.FC = () => {
   const [seatInQuestion, setSeatInQuestion] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
 
+  // UserPreferencesForm.tsx
+  const [userIdForPreferences, setUserIdForPreferences] = useState<string>("");
+  const [preferences, setPreferences] = useState<UserPreferences>({
+    windowSeat: false,
+    aisleSeat: false,
+    extraLegroom: false,
+  });
+  const [feedback, setFeedback] = useState<FeedbackData>({
+    seatId: 0,
+    rating: 0,
+    comments: "",
+  });  
+
   const handleUserIntakeFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (userId && seatInQuestion) {
@@ -20,7 +33,8 @@ const SeatRecommendation: React.FC = () => {
           `/api/recommendations?userId=${userId}&seatNumber=${seatInQuestion}`
         )
         .then((response) => {
-          setSeats(response.data);
+          setSeats(response.data.recommendedSeats);
+          setPreferences(response.data.preferences);
         })
         .catch((error) => {
           console.error(
@@ -33,18 +47,6 @@ const SeatRecommendation: React.FC = () => {
     }
   };
 
-  // UserPreferencesForm.tsx
-  const [userIdForPreferences, setUserIdForPreferences] = useState<string>("");
-  const [preferences, setPreferences] = useState<UserPreferences>({
-    windowSeat: false,
-    aisleSeat: false,
-    extraLegroom: false,
-  });
-  const [feedback, setFeedback] = useState<FeedbackData>({
-    seatId: 0,
-    rating: 0,
-    comments: "",
-  });
 
   const handleUserPreferencesFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();

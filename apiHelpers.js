@@ -8,7 +8,6 @@
  * @returns List of recommended seats
  */
 export function recommendSeats(userPreferences, availableSeats, historicalFeedback, userId, seatNumber) {
-    console.log('User Preferences:', userPreferences, 'AvailableSeat:', availableSeats, 'Historical Feedback:', historicalFeedback, 'UserId:', userId, 'SeatNumber:', seatNumber);
     const filteredSeats = availableSeats.filter(seat => (userPreferences.windowSeat && seat.isWindow) ||
         (userPreferences.aisleSeat && seat.isAisle) ||
         (userPreferences.extraLegroom && seat.hasExtraLegroom));

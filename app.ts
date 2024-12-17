@@ -9,7 +9,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import bodyParser from 'body-parser';
-import { getPreviousFeedback, getSimilarSeats, rankSeats, recommendSeats } from './apiHelpers.js';
+import { getPreviousFeedback, getSimilarSeats, recommendSeats } from './apiHelpers.js';
 
 // Define & load JSON file for the database
 const db = new Low<DatabaseSchema>(new JSONFile('db.json'), {users: [], seats: []});
@@ -36,7 +36,10 @@ app.get('/api/recommendations', (req, res) => {
 
     const recommendedSeats = recommendSeats(userPreferences, availableSeats, historicalFeedback, userId, seatNumber);
 
-    res.json(recommendedSeats);
+    res.json({
+        recommendedSeats: recommendedSeats,
+        preferences: userPreferences
+    });
 
     // server log
     console.log('Recommended Seats:');

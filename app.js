@@ -7,7 +7,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import bodyParser from 'body-parser';
-// @ts-ignore
 import { getPreviousFeedback, getSimilarSeats, recommendSeats } from './apiHelpers.js';
 // Define & load JSON file for the database
 const db = new Low(new JSONFile('db.json'), { users: [], seats: [] });
@@ -28,7 +27,10 @@ app.get('/api/recommendations', (req, res) => {
     const historicalFeedback = user.feedback;
     const availableSeats = db.data.seats;
     const recommendedSeats = recommendSeats(userPreferences, availableSeats, historicalFeedback, userId, seatNumber);
-    res.json(recommendedSeats);
+    res.json({
+        recommendedSeats: recommendedSeats,
+        preferences: userPreferences
+    });
     // server log
     console.log('Recommended Seats:');
     recommendedSeats.forEach(seat => {

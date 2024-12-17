@@ -10,7 +10,6 @@ import { FeedbackData, Seat, UserPreferences } from "./types";
  * @returns List of recommended seats
  */
 export function recommendSeats(userPreferences: UserPreferences, availableSeats: Seat[], historicalFeedback: FeedbackData[], userId: number, seatNumber: number): Seat[] {
-  console.log('User Preferences:', userPreferences, 'AvailableSeat:', availableSeats, 'Historical Feedback:', historicalFeedback, 'UserId:', userId, 'SeatNumber:', seatNumber);
   const filteredSeats = availableSeats.filter(seat => 
       (userPreferences.windowSeat && seat.isWindow) ||
       (userPreferences.aisleSeat && seat.isAisle) ||
