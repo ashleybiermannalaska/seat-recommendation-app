@@ -32,11 +32,16 @@ const SeatRecommendation = () => {
         aisleSeat: false,
         extraLegroom: false,
     });
+    const [feedback, setFeedback] = useState({
+        seatId: 0,
+        rating: 0,
+        comments: "",
+    });
     const handleUserPreferencesFormSubmit = (event) => {
         event.preventDefault();
         if (userIdForPreferences) {
             axios
-                .post("/api/preferences", { userId: userIdForPreferences, preferences })
+                .post("/api/preferences", { userId: userIdForPreferences, preferences, feedback })
                 .then((response) => {
                 console.log(response.data);
                 alert("Preferences updated successfully!");
@@ -93,6 +98,6 @@ const SeatRecommendation = () => {
                     "Other seats similar to this seat: Seat ID:",
                     " ",
                     seat.similarSeats.map((id) => id).join(", ")))))))),
-        React.createElement(UserPreferencesForm, { userIdForPreferences: userIdForPreferences, preferences: preferences, onUserIdForPreferencesChange: setUserIdForPreferences, onPreferencesChange: setPreferences, onSubmit: handleUserPreferencesFormSubmit })));
+        React.createElement(UserPreferencesForm, { userIdForPreferences: userIdForPreferences, preferences: preferences, feedback: feedback, onUserIdForPreferencesChange: setUserIdForPreferences, onPreferencesChange: setPreferences, onFeedbackChange: setFeedback, onSubmit: handleUserPreferencesFormSubmit })));
 };
 export default SeatRecommendation;

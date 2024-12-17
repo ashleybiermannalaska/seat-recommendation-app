@@ -4,23 +4,7 @@ import axios from "axios";
 import UserIntakeForm from "./UserIntakeForm.tsx";
 // @ts-ignore
 import UserPreferencesForm, { UserPreferences } from "./UserPreferencesForm.tsx";
-
-interface Seat {
-  id: number;
-  isWindow: boolean;
-  isAisle: boolean;
-  hasExtraLegroom: boolean;
-  previousFeedback?: FeedbackData;
-  similarSeats?: number[];
-  previousOpinionOnSeatInQuestion: FeedbackData | null;
-}
-
-interface FeedbackData {
-  seatId: number;
-  userId: number;
-  rating: number;
-  comments: string;
-}
+import { FeedbackData, SeatForUI as Seat } from "../../types.js";
 
 const SeatRecommendation: React.FC = () => {
   // UserIntakeForm.tsx
@@ -56,12 +40,17 @@ const SeatRecommendation: React.FC = () => {
     aisleSeat: false,
     extraLegroom: false,
   });
+  const [feedback, setFeedback] = useState<FeedbackData>({
+    seatId: 0,
+    rating: 0,
+    comments: "",
+  });
 
   const handleUserPreferencesFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (userIdForPreferences) {
       axios
-        .post("/api/preferences", { userId: userIdForPreferences, preferences })
+        .post("/api/preferences", { userId: userIdForPreferences, preferences, feedback })
         .then((response) => {
           console.log(response.data);
           alert("Preferences updated successfully!");
@@ -145,8 +134,10 @@ const SeatRecommendation: React.FC = () => {
       <UserPreferencesForm
         userIdForPreferences={userIdForPreferences}
         preferences={preferences}
+        feedback={feedback}
         onUserIdForPreferencesChange={setUserIdForPreferences}
         onPreferencesChange={setPreferences}
+        onFeedbackChange={setFeedback}
         onSubmit={handleUserPreferencesFormSubmit}
       />
     </div>

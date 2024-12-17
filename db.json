@@ -40,9 +40,20 @@
       "preferences": {
         "windowSeat": false,
         "aisleSeat": false,
-        "extraLegroom": false
+        "extraLegroom": true
       },
-      "feedback": []
+      "feedback": [
+        {
+          "seatId": 104,
+          "rating": 5,
+          "comments": "Excellent seat with plenty of legroom!"
+        },
+        {
+          "seatId": 103,
+          "rating": 5,
+          "comments": "yipppeee seat"
+        }
+      ]
     }
   ],
   "seats": [

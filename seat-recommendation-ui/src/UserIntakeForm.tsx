@@ -1,12 +1,5 @@
 import React from "react";
-
-interface UserIntakeFormProps {
-  seatNumber: string | "";
-  userId: string | "";
-  onSeatChange: (seatNumber: string) => void;
-  onUserIdChange: (userId: string) => void;
-  onSubmit: (event: React.FormEvent) => void;
-}
+import { UserIntakeFormProps } from "../../types";
 
 const UserIntakeForm: React.FC<UserIntakeFormProps> = ({
   seatNumber,

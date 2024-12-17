@@ -7,6 +7,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import bodyParser from 'body-parser';
+// Define & load JSON file for the database
 const db = new Low(new JSONFile('db.json'), { users: [], seats: [] });
 await db.read();
 // Set up & start node express server
@@ -43,7 +44,7 @@ app.get('/api/recommendations', (req, res) => {
 });
 // @ts-ignore
 app.post('/api/preferences', async (req, res) => {
-    const { userId, preferences } = req.body;
+    const { userId, preferences, feedback } = req.body;
     if (!userId || !preferences) {
         return res.status(400).json('Please provide userId and preferences.');
     }
@@ -53,13 +54,24 @@ app.post('/api/preferences', async (req, res) => {
         user = {
             id: parseInt(userId),
             preferences: preferences,
-            feedback: []
+            feedback: [feedback]
         };
         db.data.users.push(user);
     }
     else {
         // Update existing user's preferences
         user.preferences = preferences;
+        // Check if feedback for the seatId already exists
+        const existingFeedback = user.feedback.find((f) => f.seatId === feedback.seatId);
+        if (existingFeedback) {
+            // Update existing feedback
+            existingFeedback.rating = feedback.rating;
+            existingFeedback.comments = feedback.comments;
+        }
+        else {
+            // Add new feedback
+            user.feedback.push(feedback);
+        }
     }
     await db.write();
     res.status(200).json('User preferences updated successfully.');
@@ -84,6 +96,7 @@ app.listen(5001, () => {
  * @returns List of recommended seats
  */
 function recommendSeats(userPreferences, availableSeats, historicalFeedback, userId, seatNumber) {
+    console.log('User Preferences:', userPreferences, 'AvailableSeat:', availableSeats, 'Historical Feedback:', historicalFeedback, 'UserId:', userId, 'SeatNumber:', seatNumber);
     const filteredSeats = availableSeats.filter(seat => (userPreferences.windowSeat && seat.isWindow) ||
         (userPreferences.aisleSeat && seat.isAisle) ||
         (userPreferences.extraLegroom && seat.hasExtraLegroom));
@@ -120,7 +133,7 @@ function rankSeats(seats, historicalFeedback, userId) {
  * @returns Number of positive feedbacks
  */
 function countPositiveFeedback(seat, historicalFeedback, userId) {
-    return historicalFeedback.filter(feedback => feedback.seatId === seat.id && feedback.userId === userId && feedback.rating > 4).length;
+    return historicalFeedback.filter(feedback => feedback.seatId === seat.id && feedback.rating > 4).length;
 }
 /**
  * Retrieves previous feedback for a specific seat and user.

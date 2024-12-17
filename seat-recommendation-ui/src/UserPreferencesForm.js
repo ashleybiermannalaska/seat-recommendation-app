@@ -1,5 +1,5 @@
 import React from "react";
-const UserPreferencesForm = ({ userIdForPreferences, preferences, onUserIdForPreferencesChange, onPreferencesChange, onSubmit, }) => {
+const UserPreferencesForm = ({ userIdForPreferences, preferences, feedback, onUserIdForPreferencesChange, onPreferencesChange, onFeedbackChange, onSubmit, }) => {
     return (React.createElement(React.Fragment, null,
         React.createElement("h1", null, "User Preferences Form"),
         React.createElement("form", { onSubmit: onSubmit },
@@ -18,6 +18,13 @@ const UserPreferencesForm = ({ userIdForPreferences, preferences, onUserIdForPre
                 React.createElement("label", null,
                     React.createElement("input", { type: "checkbox", name: "extraLegroom", checked: preferences.extraLegroom, onChange: (e) => onPreferencesChange(Object.assign(Object.assign({}, preferences), { extraLegroom: e.target.checked })) }),
                     "Extra Legroom")),
+            React.createElement("div", null,
+                React.createElement("label", { htmlFor: "seatNumber" }, "Seat Number:"),
+                React.createElement("input", { type: "number", id: "seatNumber", onChange: (e) => onFeedbackChange(Object.assign(Object.assign({}, feedback), { seatId: parseInt(e.target.value) })) }),
+                React.createElement("label", { htmlFor: "rating" }, "Rating:"),
+                React.createElement("input", { type: "number", id: "rating", onChange: (e) => onFeedbackChange(Object.assign(Object.assign({}, feedback), { rating: parseInt(e.target.value) })) }),
+                React.createElement("label", { htmlFor: "comments" }, "Comments:"),
+                React.createElement("input", { type: "text", id: "comments", onChange: (e) => onFeedbackChange(Object.assign(Object.assign({}, feedback), { comments: e.target.value })) })),
             React.createElement("button", { type: "submit" }, "Submit"))));
 };
 export default UserPreferencesForm;

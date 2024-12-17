@@ -1,24 +1,13 @@
 import React from "react";
-
-interface UserPreferencesFormProps {
-  userIdForPreferences: string | "";
-  preferences: UserPreferences;
-  onUserIdForPreferencesChange: (userId: string) => void;
-  onPreferencesChange: (preferences: UserPreferences) => void;
-  onSubmit: (event: React.FormEvent) => void;
-}
-
-export interface UserPreferences {
-  windowSeat: boolean;
-  aisleSeat: boolean;
-  extraLegroom: boolean;
-}
+import { UserPreferencesFormProps } from "../../types";
 
 const UserPreferencesForm: React.FC<UserPreferencesFormProps> = ({
   userIdForPreferences,
   preferences,
+  feedback,
   onUserIdForPreferencesChange,
   onPreferencesChange,
+  onFeedbackChange,
   onSubmit,
 }) => {
   return (
@@ -40,7 +29,12 @@ const UserPreferencesForm: React.FC<UserPreferencesFormProps> = ({
               type="checkbox"
               name="windowSeat"
               checked={preferences.windowSeat}
-              onChange={(e) => onPreferencesChange({ ...preferences, windowSeat: e.target.checked })}
+              onChange={(e) =>
+                onPreferencesChange({
+                  ...preferences,
+                  windowSeat: e.target.checked,
+                })
+              }
             />
             Window Seat
           </label>
@@ -51,7 +45,12 @@ const UserPreferencesForm: React.FC<UserPreferencesFormProps> = ({
               type="checkbox"
               name="aisleSeat"
               checked={preferences.aisleSeat}
-              onChange={(e) => onPreferencesChange({ ...preferences, aisleSeat: e.target.checked })}
+              onChange={(e) =>
+                onPreferencesChange({
+                  ...preferences,
+                  aisleSeat: e.target.checked,
+                })
+              }
             />
             Aisle Seat
           </label>
@@ -62,10 +61,52 @@ const UserPreferencesForm: React.FC<UserPreferencesFormProps> = ({
               type="checkbox"
               name="extraLegroom"
               checked={preferences.extraLegroom}
-              onChange={(e) => onPreferencesChange({ ...preferences, extraLegroom: e.target.checked })}
+              onChange={(e) =>
+                onPreferencesChange({
+                  ...preferences,
+                  extraLegroom: e.target.checked,
+                })
+              }
             />
             Extra Legroom
           </label>
+        </div>
+        <div>
+          <label htmlFor="seatNumber">Seat Number:</label>
+          <input
+            type="number"
+            id="seatNumber"
+            onChange={(e) =>
+              onFeedbackChange({
+                ...feedback,
+                seatId: parseInt(e.target.value),
+              })
+            }
+          />
+
+          <label htmlFor="rating">Rating:</label>
+          <input
+            type="number"
+            id="rating"
+            onChange={(e) =>
+              onFeedbackChange({
+                ...feedback,
+                rating: parseInt(e.target.value),
+              })
+            }
+          />
+
+          <label htmlFor="comments">Comments:</label>
+          <input
+            type="text"
+            id="comments"
+            onChange={(e) =>
+              onFeedbackChange({
+                ...feedback,
+                comments: e.target.value,
+              })
+            }
+          />
         </div>
         <button type="submit">Submit</button>
       </form>
