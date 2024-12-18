@@ -29,7 +29,7 @@ const UserIntakeForm: React.FC<UserIntakeFormProps> = ({
           onChange={(event) => onSeatChange(event.target.value)}
         />
       </div>
-      <button type="submit">Submit</button>
+      <button type="submit">Get feedback and recommendations</button>
     </form>
   );
 };

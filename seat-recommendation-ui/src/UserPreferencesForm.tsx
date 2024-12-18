@@ -3,12 +3,10 @@ import "./UserPreferencesForm.css";
 import { UserPreferencesFormProps } from "../../types";
 
 const UserPreferencesForm: React.FC<UserPreferencesFormProps> = ({
-  userIdForPreferences,
+  userId,
   preferences,
-  feedback,
-  onUserIdForPreferencesChange,
+  onUserIdChange,
   onPreferencesChange,
-  onFeedbackChange,
   onSubmit,
 }) => {
   return (
@@ -16,12 +14,12 @@ const UserPreferencesForm: React.FC<UserPreferencesFormProps> = ({
       <h1>Update Your Preferences</h1>
       <form onSubmit={onSubmit}>
         <div className="form-group">
-          <label htmlFor="userIdForPreferences">User ID:</label>
+          <label htmlFor="userId">User ID:</label>
           <input
             type="text"
-            id="userIdForPreferences"
-            value={userIdForPreferences}
-            onChange={(e) => onUserIdForPreferencesChange(e.target.value)}
+            id="userId"
+            value={userId}
+            onChange={(e) => onUserIdChange(e.target.value)}
           />
         </div>
         <div className="form-group">
@@ -62,48 +60,6 @@ const UserPreferencesForm: React.FC<UserPreferencesFormProps> = ({
               onPreferencesChange({
                 ...preferences,
                 extraLegroom: e.target.checked,
-              })
-            }
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="seatNumber">Seat Number:</label>
-          <input
-            type="number"
-            id="seatNumber"
-            onChange={(e) =>
-              onFeedbackChange({
-                ...feedback,
-                seatId: parseInt(e.target.value),
-              })
-            }
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="rating">Rating:</label>
-          <input
-            type="number"
-            id="rating"
-            min="0"
-            max="5"
-            step="1"
-            onChange={(e) =>
-              onFeedbackChange({
-                ...feedback,
-                rating: parseInt(e.target.value),
-              })
-            }
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="comments">Comments:</label>
-          <input
-            type="text"
-            id="comments"
-            onChange={(e) =>
-              onFeedbackChange({
-                ...feedback,
-                comments: e.target.value,
               })
             }
           />

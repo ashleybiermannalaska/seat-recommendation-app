@@ -4,6 +4,8 @@ import axios from "axios";
 import UserIntakeForm from "./UserIntakeForm.tsx";
 // @ts-ignore
 import UserPreferencesForm, { UserPreferences } from "./UserPreferencesForm.tsx";
+// @ts-ignore
+import AddSeatFeedbackForm from "./AddSeatFeedbackForm.tsx";
 import { FeedbackData, SeatForUI as Seat } from "../../types.js";
 
 const SeatRecommendation: React.FC = () => {
@@ -12,19 +14,19 @@ const SeatRecommendation: React.FC = () => {
   const [seatInQuestion, setSeatInQuestion] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
 
-  /// hmm? other?
+  /// AddSeatFeedbackForm.tsx
   const [feedbackForSeat, setFeedbackForSeat] = useState<FeedbackData>();
+  const [feedback, setFeedback] = useState<FeedbackData>({
+    seatId: 0,
+    rating: 0,
+    comments: "",
+  });
 
   // UserPreferencesForm.tsx
   const [preferences, setPreferences] = useState<UserPreferences>({
     windowSeat: false,
     aisleSeat: false,
     extraLegroom: false,
-  });
-  const [feedback, setFeedback] = useState<FeedbackData>({
-    seatId: 0,
-    rating: 0,
-    comments: "",
   });
 
   const handleUserIntakeFormSubmit = (event: React.FormEvent) => {
@@ -68,22 +70,24 @@ const SeatRecommendation: React.FC = () => {
     }
   };
 
-  // Other code
-  const seatInQuestionInRecommendedSeats = seats.find(
-    (seat) => seat.id === parseInt(seatInQuestion)
-  );
-
-  // TODO: still show the feedback EVEN if the seat in question does not apppear in the recommendations
-
   return (
     <div className="seat-recommendation-container">
       <div className="forms-container">
         <UserIntakeForm
-          seatNumber={seatInQuestion}
           userId={userId}
-          onSeatChange={setSeatInQuestion}
+          seatNumber={seatInQuestion}
           onUserIdChange={setUserId}
+          onSeatChange={setSeatInQuestion}
           onSubmit={handleUserIntakeFormSubmit}
+          />
+        <AddSeatFeedbackForm
+          userId={userId}
+          seatNumber={seatInQuestion}
+          feedback={feedback}
+          onUserIdChange={setUserId}
+          onSeatChange={setSeatInQuestion}
+          onFeedbackChange={setFeedback}
+          onSubmit={handleUserPreferencesFormSubmit}
         />
       </div>
       <div className="content-container">
@@ -123,12 +127,10 @@ const SeatRecommendation: React.FC = () => {
       </div>
       <div className="forms-container">
         <UserPreferencesForm
-          userIdForPreferences={userId}
+          userId={userId}
           preferences={preferences}
-          feedback={feedback}
-          onUserIdForPreferencesChange={setUserId}
+          onUserIdChange={setUserId}
           onPreferencesChange={setPreferences}
-          onFeedbackChange={setFeedback}
           onSubmit={handleUserPreferencesFormSubmit}
         />
       </div>

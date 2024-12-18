@@ -18,15 +18,31 @@ export interface FeedbackData {
   comments: string;
 }
 
-export interface UserPreferencesFormProps {
-  userIdForPreferences: string | "";
-  preferences: UserPreferences;
-  feedback: FeedbackData;
-  onUserIdForPreferencesChange: (userId: string) => void;
-  onPreferencesChange: (preferences: UserPreferences) => void;
-  onFeedbackChange: (feedback: FeedbackData) => void;
+export interface UserIntakeFormProps {
+  userId: string | "";
+  seatNumber: string | "";
+  onUserIdChange: (userId: string) => void;
+  onSeatChange: (seatNumber: string) => void;
   onSubmit: (event: React.FormEvent) => void;
 }
+
+export interface UserPreferencesFormProps {
+  userId: string | "";
+  preferences: UserPreferences;
+  onUserIdChange: (userId: string) => void;
+  onPreferencesChange: (preferences: UserPreferences) => void;
+  onSubmit: (event: React.FormEvent) => void;
+}
+
+export interface AddSeatFeedbackFormProps {
+  userId: string;
+  seatNumber: string | "";
+  feedback: FeedbackData;
+  onUserIdChange: (userId: string) => void;
+  onSeatChange: (seatNumber: string) => void;
+  onFeedbackChange: (feedback: FeedbackData) => void;
+  onSubmit: (event: React.FormEvent) => void;
+};
 
 export interface UserPreferences {
   windowSeat: boolean;
@@ -47,12 +63,4 @@ export interface SeatForUI {
 export interface DatabaseSchema {
     users: { id: number, preferences: UserPreferences, feedback: FeedbackData[] }[];
     seats: Seat[];
-}
-
-export interface UserIntakeFormProps {
-  seatNumber: string | "";
-  userId: string | "";
-  onSeatChange: (seatNumber: string) => void;
-  onUserIdChange: (userId: string) => void;
-  onSubmit: (event: React.FormEvent) => void;
 }
