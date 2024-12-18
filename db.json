@@ -9,14 +9,19 @@
       },
       "feedback": [
         {
-          "seatId": 101,
-          "rating": 5,
-          "comments": "Great window seat!"
+          "seatId": 102,
+          "rating": 4,
+          "comments": "chaning 436"
         },
         {
-          "seatId": 102,
-          "rating": 3,
-          "comments": "meh, it was fine"
+          "seatId": 101,
+          "rating": 5,
+          "comments": "my favorite seat 436!"
+        },
+        {
+          "seatId": 0,
+          "rating": 0,
+          "comments": ""
         }
       ]
     },

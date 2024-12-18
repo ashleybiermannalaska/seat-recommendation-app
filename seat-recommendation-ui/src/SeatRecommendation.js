@@ -10,7 +10,6 @@ const SeatRecommendation = () => {
     const [seatInQuestion, setSeatInQuestion] = useState("");
     const [userId, setUserId] = useState("");
     // UserPreferencesForm.tsx
-    const [userIdForPreferences, setUserIdForPreferences] = useState("");
     const [preferences, setPreferences] = useState({
         windowSeat: false,
         aisleSeat: false,
@@ -40,9 +39,9 @@ const SeatRecommendation = () => {
     };
     const handleUserPreferencesFormSubmit = (event) => {
         event.preventDefault();
-        if (userIdForPreferences) {
+        if (userId) {
             axios
-                .post("/api/preferences", { userId: userIdForPreferences, preferences, feedback })
+                .post("/api/preferences", { userId, preferences, feedback })
                 .then((response) => {
                 console.log(response.data);
                 alert("Preferences updated successfully!");
@@ -58,9 +57,11 @@ const SeatRecommendation = () => {
     };
     // Other code
     const seatInQuestionFeedback = seats.find((seat) => seat.id === parseInt(seatInQuestion));
-    return (React.createElement("div", null,
-        React.createElement(UserIntakeForm, { seatNumber: seatInQuestion, userId: userId, onSeatChange: setSeatInQuestion, onUserIdChange: setUserId, onSubmit: handleUserIntakeFormSubmit }),
-        React.createElement("div", null,
+    // TODO: still show the feedback EVEN if the seat in question does not apppear in the recommendations
+    return (React.createElement("div", { className: "seat-recommendation-container" },
+        React.createElement("div", { className: "forms-container" },
+            React.createElement(UserIntakeForm, { seatNumber: seatInQuestion, userId: userId, onSeatChange: setSeatInQuestion, onUserIdChange: setUserId, onSubmit: handleUserIntakeFormSubmit })),
+        React.createElement("div", { className: "content-container" },
             React.createElement("h1", null, "Your Previous Opinions on Seat"),
             seatInQuestionFeedback ? (seatInQuestionFeedback.previousOpinionOnSeatInQuestion ? (React.createElement("div", { key: seatInQuestionFeedback.id },
                 React.createElement("div", null,
@@ -99,6 +100,7 @@ const SeatRecommendation = () => {
                     "Other seats similar to this seat: Seat ID:",
                     " ",
                     seat.similarSeats.map((id) => id).join(", ")))))))),
-        React.createElement(UserPreferencesForm, { userIdForPreferences: userIdForPreferences, preferences: preferences, feedback: feedback, onUserIdForPreferencesChange: setUserIdForPreferences, onPreferencesChange: setPreferences, onFeedbackChange: setFeedback, onSubmit: handleUserPreferencesFormSubmit })));
+        React.createElement("div", { className: "forms-container" },
+            React.createElement(UserPreferencesForm, { userIdForPreferences: userId, preferences: preferences, feedback: feedback, onUserIdForPreferencesChange: setUserId, onPreferencesChange: setPreferences, onFeedbackChange: setFeedback, onSubmit: handleUserPreferencesFormSubmit }))));
 };
 export default SeatRecommendation;

@@ -1,4 +1,5 @@
 import React from "react";
+import "./UserPreferencesForm.css";
 import { UserPreferencesFormProps } from "../../types";
 
 const UserPreferencesForm: React.FC<UserPreferencesFormProps> = ({
@@ -12,66 +13,60 @@ const UserPreferencesForm: React.FC<UserPreferencesFormProps> = ({
 }) => {
   return (
     <>
-      <h1>User Preferences Form</h1>
+      <h1>Update Your Preferences</h1>
       <form onSubmit={onSubmit}>
-        <div>
-          <label htmlFor="userId">User ID:</label>
+        <div className="form-group">
+          <label htmlFor="userIdForPreferences">User ID:</label>
           <input
             type="text"
-            id="userId"
+            id="userIdForPreferences"
             value={userIdForPreferences}
             onChange={(e) => onUserIdForPreferencesChange(e.target.value)}
           />
         </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              name="windowSeat"
-              checked={preferences.windowSeat}
-              onChange={(e) =>
-                onPreferencesChange({
-                  ...preferences,
-                  windowSeat: e.target.checked,
-                })
-              }
-            />
-            Window Seat
-          </label>
+        <div className="form-group">
+          <label>Window Seat</label>
+          <input
+            type="checkbox"
+            name="windowSeat"
+            checked={preferences.windowSeat}
+            onChange={(e) =>
+              onPreferencesChange({
+                ...preferences,
+                windowSeat: e.target.checked,
+              })
+            }
+          />
         </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              name="aisleSeat"
-              checked={preferences.aisleSeat}
-              onChange={(e) =>
-                onPreferencesChange({
-                  ...preferences,
-                  aisleSeat: e.target.checked,
-                })
-              }
-            />
-            Aisle Seat
-          </label>
+        <div className="form-group">
+          <label>Aisle Seat</label>
+          <input
+            type="checkbox"
+            name="aisleSeat"
+            checked={preferences.aisleSeat}
+            onChange={(e) =>
+              onPreferencesChange({
+                ...preferences,
+                aisleSeat: e.target.checked,
+              })
+            }
+          />
         </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              name="extraLegroom"
-              checked={preferences.extraLegroom}
-              onChange={(e) =>
-                onPreferencesChange({
-                  ...preferences,
-                  extraLegroom: e.target.checked,
-                })
-              }
-            />
-            Extra Legroom
-          </label>
+        <div className="form-group">
+          <label>Extra Legroom</label>
+          <input
+            type="checkbox"
+            name="extraLegroom"
+            checked={preferences.extraLegroom}
+            onChange={(e) =>
+              onPreferencesChange({
+                ...preferences,
+                extraLegroom: e.target.checked,
+              })
+            }
+          />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="seatNumber">Seat Number:</label>
           <input
             type="number"
@@ -83,11 +78,15 @@ const UserPreferencesForm: React.FC<UserPreferencesFormProps> = ({
               })
             }
           />
-
+        </div>
+        <div className="form-group">
           <label htmlFor="rating">Rating:</label>
           <input
             type="number"
             id="rating"
+            min="0"
+            max="5"
+            step="1"
             onChange={(e) =>
               onFeedbackChange({
                 ...feedback,
@@ -95,7 +94,8 @@ const UserPreferencesForm: React.FC<UserPreferencesFormProps> = ({
               })
             }
           />
-
+        </div>
+        <div className="form-group">
           <label htmlFor="comments">Comments:</label>
           <input
             type="text"
@@ -108,7 +108,7 @@ const UserPreferencesForm: React.FC<UserPreferencesFormProps> = ({
             }
           />
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit">Update preferences</button>
       </form>
     </>
   );

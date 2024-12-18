@@ -11,7 +11,7 @@ const UserIntakeForm: React.FC<UserIntakeFormProps> = ({
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <h1>Enter your UserId and SeatNumber:</h1>
+        <h1>Get Recommendations and Preferences:</h1>
 
         <label htmlFor="userId">User ID:</label>
         <input

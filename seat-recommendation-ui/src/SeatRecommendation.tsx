@@ -13,7 +13,6 @@ const SeatRecommendation: React.FC = () => {
   const [userId, setUserId] = useState<string>("");
 
   // UserPreferencesForm.tsx
-  const [userIdForPreferences, setUserIdForPreferences] = useState<string>("");
   const [preferences, setPreferences] = useState<UserPreferences>({
     windowSeat: false,
     aisleSeat: false,
@@ -50,9 +49,9 @@ const SeatRecommendation: React.FC = () => {
 
   const handleUserPreferencesFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (userIdForPreferences) {
+    if (userId) {
       axios
-        .post("/api/preferences", { userId: userIdForPreferences, preferences, feedback })
+        .post("/api/preferences", {userId, preferences, feedback })
         .then((response) => {
           console.log(response.data);
           alert("Preferences updated successfully!");
@@ -71,16 +70,20 @@ const SeatRecommendation: React.FC = () => {
     (seat) => seat.id === parseInt(seatInQuestion)
   );
 
+  // TODO: still show the feedback EVEN if the seat in question does not apppear in the recommendations
+
   return (
-    <div>
-      <UserIntakeForm
-        seatNumber={seatInQuestion}
-        userId={userId}
-        onSeatChange={setSeatInQuestion}
-        onUserIdChange={setUserId}
-        onSubmit={handleUserIntakeFormSubmit}
-      />
-      <div>
+    <div className="seat-recommendation-container">
+      <div className="forms-container">
+        <UserIntakeForm
+          seatNumber={seatInQuestion}
+          userId={userId}
+          onSeatChange={setSeatInQuestion}
+          onUserIdChange={setUserId}
+          onSubmit={handleUserIntakeFormSubmit}
+        />
+      </div>
+      <div className="content-container">
         <h1>Your Previous Opinions on Seat</h1>
         {seatInQuestionFeedback ? (
           seatInQuestionFeedback.previousOpinionOnSeatInQuestion ? (
@@ -133,15 +136,17 @@ const SeatRecommendation: React.FC = () => {
           ))}
         </ul>
       </div>
-      <UserPreferencesForm
-        userIdForPreferences={userIdForPreferences}
-        preferences={preferences}
-        feedback={feedback}
-        onUserIdForPreferencesChange={setUserIdForPreferences}
-        onPreferencesChange={setPreferences}
-        onFeedbackChange={setFeedback}
-        onSubmit={handleUserPreferencesFormSubmit}
-      />
+      <div className="forms-container">
+        <UserPreferencesForm
+          userIdForPreferences={userId}
+          preferences={preferences}
+          feedback={feedback}
+          onUserIdForPreferencesChange={setUserId}
+          onPreferencesChange={setPreferences}
+          onFeedbackChange={setFeedback}
+          onSubmit={handleUserPreferencesFormSubmit}
+        />
+      </div>
     </div>
   );
 };
