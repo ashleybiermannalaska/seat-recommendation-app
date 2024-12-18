@@ -4,8 +4,8 @@
       "id": 1,
       "preferences": {
         "windowSeat": true,
-        "aisleSeat": false,
-        "extraLegroom": false
+        "aisleSeat": true,
+        "extraLegroom": true
       },
       "feedback": [
         {
@@ -15,8 +15,8 @@
         },
         {
           "seatId": 101,
-          "rating": 4,
-          "comments": "boopy"
+          "rating": 3,
+          "comments": "here we go again! 159"
         }
       ]
     },

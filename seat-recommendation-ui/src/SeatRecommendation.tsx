@@ -56,7 +56,7 @@ const SeatRecommendation: React.FC = () => {
     event.preventDefault();
     if (userId) {
       axios
-        .post("/api/preferences", { userId, preferences, feedback })
+        .post("/api/preferences", { userId, preferences })
         .then((response) => {
           console.log(response.data);
           alert("Preferences updated successfully!");
@@ -64,6 +64,24 @@ const SeatRecommendation: React.FC = () => {
         .catch((error) => {
           console.error("There was an error updating the preferences!", error);
           alert("There was an error updating the preferences.");
+        });
+    } else {
+      alert("Please enter User ID.");
+    }
+  };
+
+  const handleUserFeedbackFormSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (userId) {
+      axios
+        .post("/api/feedback", { userId, feedback })
+        .then((response) => {
+          console.log(response.data);
+          alert("Feedback updated successfully!");
+        })
+        .catch((error) => {
+          console.error("There was an error updating the feedback!", error);
+          alert("There was an error updating the feedback.");
         });
     } else {
       alert("Please enter User ID.");
@@ -87,7 +105,7 @@ const SeatRecommendation: React.FC = () => {
           onUserIdChange={setUserId}
           onSeatChange={setSeatInQuestion}
           onFeedbackChange={setFeedback}
-          onSubmit={handleUserPreferencesFormSubmit}
+          onSubmit={handleUserFeedbackFormSubmit}
         />
       </div>
       <div className="content-container">

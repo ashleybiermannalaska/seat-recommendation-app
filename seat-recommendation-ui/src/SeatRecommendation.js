@@ -4,28 +4,25 @@ import axios from "axios";
 import UserIntakeForm from "./UserIntakeForm.tsx";
 // @ts-ignore
 import UserPreferencesForm from "./UserPreferencesForm.tsx";
+// @ts-ignore
+import AddSeatFeedbackForm from "./AddSeatFeedbackForm.tsx";
 const SeatRecommendation = () => {
     // UserIntakeForm.tsx
     const [seats, setSeats] = useState([]);
     const [seatInQuestion, setSeatInQuestion] = useState("");
     const [userId, setUserId] = useState("");
-    /// hmm? other?
-    const [feedbackForSeat, setFeedbackForSeat] = useState({
+    /// AddSeatFeedbackForm.tsx
+    const [feedbackForSeat, setFeedbackForSeat] = useState();
+    const [feedback, setFeedback] = useState({
         seatId: 0,
         rating: 0,
         comments: "",
     });
-    ;
     // UserPreferencesForm.tsx
     const [preferences, setPreferences] = useState({
         windowSeat: false,
         aisleSeat: false,
         extraLegroom: false,
-    });
-    const [feedback, setFeedback] = useState({
-        seatId: 0,
-        rating: 0,
-        comments: "",
     });
     const handleUserIntakeFormSubmit = (event) => {
         event.preventDefault();
@@ -36,7 +33,6 @@ const SeatRecommendation = () => {
                 setSeats(response.data.recommendedSeats);
                 setPreferences(response.data.preferences);
                 setFeedbackForSeat(response.data.feedbackForSeat);
-                console.log("feedbackFroSeat", response.data.feedbackForSeat);
             })
                 .catch((error) => {
                 console.error("There was an error fetching the recommendations!", error);
@@ -46,11 +42,12 @@ const SeatRecommendation = () => {
             alert("Please enter both User ID and Seat Number.");
         }
     };
+    // TODO: sep preferences updates and feedback updates. may also need a different endpoint for feedback
     const handleUserPreferencesFormSubmit = (event) => {
         event.preventDefault();
         if (userId) {
             axios
-                .post("/api/preferences", { userId, preferences, feedback })
+                .post("/api/preferences", { userId, preferences })
                 .then((response) => {
                 console.log(response.data);
                 alert("Preferences updated successfully!");
@@ -64,28 +61,40 @@ const SeatRecommendation = () => {
             alert("Please enter User ID.");
         }
     };
-    // Other code
-    const seatInQuestionInRecommendedSeats = seats.find((seat) => seat.id === parseInt(seatInQuestion));
-    // TODO: still show the feedback EVEN if the seat in question does not apppear in the recommendations
+    const handleUserFeedbackFormSubmit = (event) => {
+        event.preventDefault();
+        if (userId) {
+            axios
+                .post("/api/feedback", { userId, feedback })
+                .then((response) => {
+                console.log(response.data);
+                alert("Feedback updated successfully!");
+            })
+                .catch((error) => {
+                console.error("There was an error updating the feedback!", error);
+                alert("There was an error updating the feedback.");
+            });
+        }
+        else {
+            alert("Please enter User ID.");
+        }
+    };
     return (React.createElement("div", { className: "seat-recommendation-container" },
         React.createElement("div", { className: "forms-container" },
-            React.createElement(UserIntakeForm, { seatNumber: seatInQuestion, userId: userId, onSeatChange: setSeatInQuestion, onUserIdChange: setUserId, onSubmit: handleUserIntakeFormSubmit })),
+            React.createElement(UserIntakeForm, { userId: userId, seatNumber: seatInQuestion, onUserIdChange: setUserId, onSeatChange: setSeatInQuestion, onSubmit: handleUserIntakeFormSubmit }),
+            React.createElement(AddSeatFeedbackForm, { userId: userId, seatNumber: seatInQuestion, feedback: feedback, onUserIdChange: setUserId, onSeatChange: setSeatInQuestion, onFeedbackChange: setFeedback, onSubmit: handleUserFeedbackFormSubmit })),
         React.createElement("div", { className: "content-container" },
             React.createElement("h1", null, "Your Previous Opinions on Seat"),
-            seatInQuestionInRecommendedSeats ? (seatInQuestionInRecommendedSeats.previousOpinionOnSeatInQuestion ? (React.createElement("div", { key: seatInQuestionInRecommendedSeats.id },
+            feedbackForSeat ? (React.createElement("div", { key: feedbackForSeat.seatId },
                 React.createElement("div", null,
-                    "Seat Number:",
-                    " ",
-                    seatInQuestionInRecommendedSeats.previousOpinionOnSeatInQuestion.seatId),
+                    "Seat Number: ",
+                    feedbackForSeat.seatId),
                 React.createElement("div", null,
-                    "Rating:",
-                    " ",
-                    seatInQuestionInRecommendedSeats.previousOpinionOnSeatInQuestion.rating),
+                    "Rating: ",
+                    feedbackForSeat.rating),
                 React.createElement("div", null,
-                    "Comments:",
-                    " ",
-                    seatInQuestionInRecommendedSeats.previousOpinionOnSeatInQuestion
-                        .comments))) : (React.createElement("div", { key: seatInQuestionInRecommendedSeats.id }, "No previous feedback for this seat"))) : (React.createElement("div", null, "No previous feedback for this seat")),
+                    "Comments: ",
+                    feedbackForSeat.comments))) : (React.createElement("div", null, "No previous feedback for this seat")),
             React.createElement("h1", null, "Recommended Seats:"),
             React.createElement("ul", null, seats.map((seat) => (React.createElement("li", { key: seat.id },
                 React.createElement("div", null,
@@ -110,6 +119,6 @@ const SeatRecommendation = () => {
                     " ",
                     seat.similarSeats.map((id) => id).join(", ")))))))),
         React.createElement("div", { className: "forms-container" },
-            React.createElement(UserPreferencesForm, { userIdForPreferences: userId, preferences: preferences, feedback: feedback, onUserIdForPreferencesChange: setUserId, onPreferencesChange: setPreferences, onFeedbackChange: setFeedback, onSubmit: handleUserPreferencesFormSubmit }))));
+            React.createElement(UserPreferencesForm, { userId: userId, preferences: preferences, onUserIdChange: setUserId, onPreferencesChange: setPreferences, onSubmit: handleUserPreferencesFormSubmit }))));
 };
 export default SeatRecommendation;

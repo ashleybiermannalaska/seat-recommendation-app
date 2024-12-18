@@ -7,6 +7,6 @@ const UserIntakeForm = ({ seatNumber, userId, onSeatChange, onUserIdChange, onSu
             React.createElement("input", { type: "text", id: "userId", value: userId || "", onChange: (event) => onUserIdChange(event.target.value) }),
             React.createElement("label", { htmlFor: "seatNumber" }, "Seat Number:"),
             React.createElement("input", { type: "text", id: "seatNumber", value: seatNumber || "", onChange: (event) => onSeatChange(event.target.value) })),
-        React.createElement("button", { type: "submit" }, "Submit")));
+        React.createElement("button", { type: "submit" }, "Get feedback and recommendations")));
 };
 export default UserIntakeForm;

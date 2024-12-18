@@ -51,7 +51,7 @@ app.get('/api/recommendations', (req, res) => {
 });
 // @ts-ignore
 app.post('/api/preferences', async (req, res) => {
-    const { userId, preferences, feedback } = req.body;
+    const { userId, preferences } = req.body;
     if (!userId || !preferences) {
         return res.status(400).json('Please provide userId and preferences.');
     }
@@ -61,13 +61,38 @@ app.post('/api/preferences', async (req, res) => {
         user = {
             id: parseInt(userId),
             preferences: preferences,
-            feedback: [feedback]
+            feedback: []
         };
         db.data.users.push(user);
     }
     else {
         // Update existing user's preferences
         user.preferences = preferences;
+    }
+    await db.write();
+    res.status(200).json('User preferences updated successfully.');
+});
+// @ts-ignore
+app.post('/api/feedback', async (req, res) => {
+    const { userId, feedback } = req.body;
+    if (!userId || !feedback) {
+        return res.status(400).json('Please provide userId and feedback.');
+    }
+    let user = db.data.users.find(user => user.id === parseInt(userId));
+    if (!user) {
+        // Create a new user if not found
+        user = {
+            id: parseInt(userId),
+            preferences: {
+                windowSeat: false,
+                aisleSeat: false,
+                extraLegroom: false
+            },
+            feedback: [feedback]
+        };
+        db.data.users.push(user);
+    }
+    else {
         // Check if feedback for the seatId already exists
         const existingFeedback = user.feedback.find((f) => f.seatId === feedback.seatId);
         if (existingFeedback) {
@@ -81,8 +106,39 @@ app.post('/api/preferences', async (req, res) => {
         }
     }
     await db.write();
-    res.status(200).json('User preferences updated successfully.');
+    res.status(200).json('User feedback updated successfully.');
 });
+// app.post('/api/preferences', async (req, res) => {
+//     const { userId, preferences, feedback } = req.body;
+//     if (!userId || !preferences) {
+//         return res.status(400).json('Please provide userId and preferences.');
+//     }
+//     let user = db.data.users.find(user => user.id === parseInt(userId));
+//     if (!user) {
+//         // Create a new user if not found
+//         user = {
+//             id: parseInt(userId),
+//             preferences: preferences,
+//             feedback: [feedback]
+//         };
+//         db.data.users.push(user);
+//     } else {
+//         // Update existing user's preferences
+//         user.preferences = preferences;
+//         // Check if feedback for the seatId already exists
+//         const existingFeedback = user.feedback.find((f: any) => f.seatId === feedback.seatId);
+//         if (existingFeedback) {
+//             // Update existing feedback
+//             existingFeedback.rating = feedback.rating;
+//             existingFeedback.comments = feedback.comments;
+//         } else {
+//             // Add new feedback
+//             user.feedback.push(feedback);
+//         }
+//     }
+//     await db.write();
+//     res.status(200).json('User preferences updated successfully.');
+// });
 // Serve client static files from the React app
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
