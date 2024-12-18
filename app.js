@@ -26,10 +26,13 @@ app.get('/api/recommendations', (req, res) => {
     const userPreferences = user.preferences;
     const historicalFeedback = user.feedback;
     const availableSeats = db.data.seats;
+    // feedback for seat is where the the seatNumber from the query matches the seatId in the historicalFeedback
+    const feedbackForSeat = historicalFeedback.find((feedback) => feedback.seatId === seatNumber);
     const recommendedSeats = recommendSeats(userPreferences, availableSeats, historicalFeedback, userId, seatNumber);
     res.json({
         recommendedSeats: recommendedSeats,
-        preferences: userPreferences
+        preferences: userPreferences,
+        feedbackForSeat
     });
     // server log
     console.log('Recommended Seats:');

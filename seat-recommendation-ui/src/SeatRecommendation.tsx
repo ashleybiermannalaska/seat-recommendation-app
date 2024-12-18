@@ -12,6 +12,9 @@ const SeatRecommendation: React.FC = () => {
   const [seatInQuestion, setSeatInQuestion] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
 
+  /// hmm? other?
+  const [feedbackForSeat, setFeedbackForSeat] = useState<FeedbackData>();
+
   // UserPreferencesForm.tsx
   const [preferences, setPreferences] = useState<UserPreferences>({
     windowSeat: false,
@@ -22,7 +25,7 @@ const SeatRecommendation: React.FC = () => {
     seatId: 0,
     rating: 0,
     comments: "",
-  });  
+  });
 
   const handleUserIntakeFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -34,6 +37,7 @@ const SeatRecommendation: React.FC = () => {
         .then((response) => {
           setSeats(response.data.recommendedSeats);
           setPreferences(response.data.preferences);
+          setFeedbackForSeat(response.data.feedbackForSeat);
         })
         .catch((error) => {
           console.error(
@@ -46,12 +50,11 @@ const SeatRecommendation: React.FC = () => {
     }
   };
 
-
   const handleUserPreferencesFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (userId) {
       axios
-        .post("/api/preferences", {userId, preferences, feedback })
+        .post("/api/preferences", { userId, preferences, feedback })
         .then((response) => {
           console.log(response.data);
           alert("Preferences updated successfully!");
@@ -66,7 +69,7 @@ const SeatRecommendation: React.FC = () => {
   };
 
   // Other code
-  const seatInQuestionFeedback = seats.find(
+  const seatInQuestionInRecommendedSeats = seats.find(
     (seat) => seat.id === parseInt(seatInQuestion)
   );
 
@@ -85,30 +88,12 @@ const SeatRecommendation: React.FC = () => {
       </div>
       <div className="content-container">
         <h1>Your Previous Opinions on Seat</h1>
-        {seatInQuestionFeedback ? (
-          seatInQuestionFeedback.previousOpinionOnSeatInQuestion ? (
-            <div key={seatInQuestionFeedback.id}>
-              <div>
-                Seat Number:{" "}
-                {seatInQuestionFeedback.previousOpinionOnSeatInQuestion.seatId}
-              </div>
-              <div>
-                Rating:{" "}
-                {seatInQuestionFeedback.previousOpinionOnSeatInQuestion.rating}
-              </div>
-              <div>
-                Comments:{" "}
-                {
-                  seatInQuestionFeedback.previousOpinionOnSeatInQuestion
-                    .comments
-                }
-              </div>
-            </div>
-          ) : (
-            <div key={seatInQuestionFeedback.id}>
-              No previous feedback for this seat
-            </div>
-          )
+        {feedbackForSeat ? (
+          <div key={feedbackForSeat.seatId}>
+            <div>Seat Number: {feedbackForSeat.seatId}</div>
+            <div>Rating: {feedbackForSeat.rating}</div>
+            <div>Comments: {feedbackForSeat.comments}</div>
+          </div>
         ) : (
           <div>No previous feedback for this seat</div>
         )}

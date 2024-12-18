@@ -9,6 +9,13 @@ const SeatRecommendation = () => {
     const [seats, setSeats] = useState([]);
     const [seatInQuestion, setSeatInQuestion] = useState("");
     const [userId, setUserId] = useState("");
+    /// hmm? other?
+    const [feedbackForSeat, setFeedbackForSeat] = useState({
+        seatId: 0,
+        rating: 0,
+        comments: "",
+    });
+    ;
     // UserPreferencesForm.tsx
     const [preferences, setPreferences] = useState({
         windowSeat: false,
@@ -28,6 +35,8 @@ const SeatRecommendation = () => {
                 .then((response) => {
                 setSeats(response.data.recommendedSeats);
                 setPreferences(response.data.preferences);
+                setFeedbackForSeat(response.data.feedbackForSeat);
+                console.log("feedbackFroSeat", response.data.feedbackForSeat);
             })
                 .catch((error) => {
                 console.error("There was an error fetching the recommendations!", error);
@@ -56,27 +65,27 @@ const SeatRecommendation = () => {
         }
     };
     // Other code
-    const seatInQuestionFeedback = seats.find((seat) => seat.id === parseInt(seatInQuestion));
+    const seatInQuestionInRecommendedSeats = seats.find((seat) => seat.id === parseInt(seatInQuestion));
     // TODO: still show the feedback EVEN if the seat in question does not apppear in the recommendations
     return (React.createElement("div", { className: "seat-recommendation-container" },
         React.createElement("div", { className: "forms-container" },
             React.createElement(UserIntakeForm, { seatNumber: seatInQuestion, userId: userId, onSeatChange: setSeatInQuestion, onUserIdChange: setUserId, onSubmit: handleUserIntakeFormSubmit })),
         React.createElement("div", { className: "content-container" },
             React.createElement("h1", null, "Your Previous Opinions on Seat"),
-            seatInQuestionFeedback ? (seatInQuestionFeedback.previousOpinionOnSeatInQuestion ? (React.createElement("div", { key: seatInQuestionFeedback.id },
+            seatInQuestionInRecommendedSeats ? (seatInQuestionInRecommendedSeats.previousOpinionOnSeatInQuestion ? (React.createElement("div", { key: seatInQuestionInRecommendedSeats.id },
                 React.createElement("div", null,
                     "Seat Number:",
                     " ",
-                    seatInQuestionFeedback.previousOpinionOnSeatInQuestion.seatId),
+                    seatInQuestionInRecommendedSeats.previousOpinionOnSeatInQuestion.seatId),
                 React.createElement("div", null,
                     "Rating:",
                     " ",
-                    seatInQuestionFeedback.previousOpinionOnSeatInQuestion.rating),
+                    seatInQuestionInRecommendedSeats.previousOpinionOnSeatInQuestion.rating),
                 React.createElement("div", null,
                     "Comments:",
                     " ",
-                    seatInQuestionFeedback.previousOpinionOnSeatInQuestion
-                        .comments))) : (React.createElement("div", { key: seatInQuestionFeedback.id }, "No previous feedback for this seat"))) : (React.createElement("div", null, "No previous feedback for this seat")),
+                    seatInQuestionInRecommendedSeats.previousOpinionOnSeatInQuestion
+                        .comments))) : (React.createElement("div", { key: seatInQuestionInRecommendedSeats.id }, "No previous feedback for this seat"))) : (React.createElement("div", null, "No previous feedback for this seat")),
             React.createElement("h1", null, "Recommended Seats:"),
             React.createElement("ul", null, seats.map((seat) => (React.createElement("li", { key: seat.id },
                 React.createElement("div", null,

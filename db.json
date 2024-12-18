@@ -3,15 +3,15 @@
     {
       "id": 1,
       "preferences": {
-        "windowSeat": true,
-        "aisleSeat": false,
-        "extraLegroom": false
+        "windowSeat": false,
+        "aisleSeat": true,
+        "extraLegroom": true
       },
       "feedback": [
         {
           "seatId": 102,
-          "rating": 4,
-          "comments": "chaning 436"
+          "rating": 0,
+          "comments": "slick seat boi! 459"
         },
         {
           "seatId": 101,
