@@ -15,11 +15,8 @@ export function recommendSeats(userPreferences: UserPreferences, availableSeats:
       (userPreferences.extraLegroom && seat.hasExtraLegroom)
   );
   const rankedSeats = rankSeats(filteredSeats, historicalFeedback);
-  const sortedSeats = rankedSeats.sort((a, b) => {
-      const aHasFeedback = getPreviousFeedback(a.id, historicalFeedback) ? 1 : 0;
-      const bHasFeedback = getPreviousFeedback(b.id, historicalFeedback) ? 1 : 0;
-      return bHasFeedback - aHasFeedback;
-  });
+
+  const sortedSeats = sortSeatsByPreferencesAndFeedback(rankedSeats, userPreferences, historicalFeedback);
 
   return sortedSeats.map(seat => {
       const similarSeats = getSimilarSeats(seat, sortedSeats);
@@ -33,6 +30,36 @@ export function recommendSeats(userPreferences: UserPreferences, availableSeats:
           } : null,
           previousOpinionOnSeatInQuestion: seatNumber === seat.id ? previousFeedback : null
       };
+  });
+}
+
+/**
+ * Sorts seats based on user preferences and historical feedback.
+ * Seats with more matching preferences are ranked higher.
+ * If the match count is the same, seats with previous feedback are ranked higher.
+ * 
+ * @param {Seat[]} seats - List of seats to be sorted.
+ * @param {UserPreferences} userPreferences - User preferences for seat selection.
+ * @param {FeedbackData[]} historicalFeedback - Historical feedback data.
+ * @returns {Seat[]} Sorted list of seats.
+ */
+function sortSeatsByPreferencesAndFeedback(seats: Seat[], userPreferences: UserPreferences, historicalFeedback: FeedbackData[]): Seat[] {
+  return seats.sort((a, b) => {
+    const aMatchCount = (a.isWindow === userPreferences.windowSeat ? 1 : 0) +
+      (a.isAisle === userPreferences.aisleSeat ? 1 : 0) +
+      (a.hasExtraLegroom === userPreferences.extraLegroom ? 1 : 0);
+
+    const bMatchCount = (b.isWindow === userPreferences.windowSeat ? 1 : 0) +
+      (b.isAisle === userPreferences.aisleSeat ? 1 : 0) +
+      (b.hasExtraLegroom === userPreferences.extraLegroom ? 1 : 0);
+
+    if (bMatchCount !== aMatchCount) {
+      return bMatchCount - aMatchCount;
+    }
+
+    const aHasFeedback = getPreviousFeedback(a.id, historicalFeedback) ? 1 : 0;
+    const bHasFeedback = getPreviousFeedback(b.id, historicalFeedback) ? 1 : 0;
+    return bHasFeedback - aHasFeedback;
   });
 }
 

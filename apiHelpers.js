@@ -11,11 +11,7 @@ export function recommendSeats(userPreferences, availableSeats, historicalFeedba
         (userPreferences.aisleSeat && seat.isAisle) ||
         (userPreferences.extraLegroom && seat.hasExtraLegroom));
     const rankedSeats = rankSeats(filteredSeats, historicalFeedback);
-    const sortedSeats = rankedSeats.sort((a, b) => {
-        const aHasFeedback = getPreviousFeedback(a.id, historicalFeedback) ? 1 : 0;
-        const bHasFeedback = getPreviousFeedback(b.id, historicalFeedback) ? 1 : 0;
-        return bHasFeedback - aHasFeedback;
-    });
+    const sortedSeats = sortSeatsByPreferencesAndFeedback(rankedSeats, userPreferences, historicalFeedback);
     return sortedSeats.map(seat => {
         const similarSeats = getSimilarSeats(seat, sortedSeats);
         const previousFeedback = getPreviousFeedback(seat.id, historicalFeedback);
@@ -23,6 +19,22 @@ export function recommendSeats(userPreferences, availableSeats, historicalFeedba
                 rating: previousFeedback.rating,
                 comments: previousFeedback.comments
             } : null, previousOpinionOnSeatInQuestion: seatNumber === seat.id ? previousFeedback : null });
+    });
+}
+function sortSeatsByPreferencesAndFeedback(seats, userPreferences, historicalFeedback) {
+    return seats.sort((a, b) => {
+        const aMatchCount = (a.isWindow === userPreferences.windowSeat ? 1 : 0) +
+            (a.isAisle === userPreferences.aisleSeat ? 1 : 0) +
+            (a.hasExtraLegroom === userPreferences.extraLegroom ? 1 : 0);
+        const bMatchCount = (b.isWindow === userPreferences.windowSeat ? 1 : 0) +
+            (b.isAisle === userPreferences.aisleSeat ? 1 : 0) +
+            (b.hasExtraLegroom === userPreferences.extraLegroom ? 1 : 0);
+        if (bMatchCount !== aMatchCount) {
+            return bMatchCount - aMatchCount;
+        }
+        const aHasFeedback = getPreviousFeedback(a.id, historicalFeedback) ? 1 : 0;
+        const bHasFeedback = getPreviousFeedback(b.id, historicalFeedback) ? 1 : 0;
+        return bHasFeedback - aHasFeedback;
     });
 }
 /**
