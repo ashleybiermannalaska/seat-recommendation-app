@@ -17,7 +17,7 @@ const SeatRecommendation: React.FC = () => {
   /// AddSeatFeedbackForm.tsx
   const [feedbackForSeat, setFeedbackForSeat] = useState<FeedbackData>();
   const [feedback, setFeedback] = useState<FeedbackData>({
-    seatId: 0,
+    seatId: "",
     rating: 0,
     comments: "",
   });
@@ -100,10 +100,10 @@ const SeatRecommendation: React.FC = () => {
           />
         <AddSeatFeedbackForm
           userId={userId}
-          seatNumber={seatInQuestion}
+          // seatNumber={seatInQuestion}
           feedback={feedback}
           onUserIdChange={setUserId}
-          onSeatChange={setSeatInQuestion}
+          // onSeatChange={setSeatInQuestion}
           onFeedbackChange={setFeedback}
           onSubmit={handleUserFeedbackFormSubmit}
         />

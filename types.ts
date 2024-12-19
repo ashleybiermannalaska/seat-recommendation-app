@@ -6,14 +6,14 @@ export interface UserPreferences {
 }
 
 export interface Seat {
-  id: number;
+  id: string;
   isWindow: boolean;
   isAisle: boolean;
   hasExtraLegroom: boolean;
 }
 
 export interface FeedbackData {
-  seatId: number;
+  seatId: string;
   rating: number;
   comments: string;
 }
@@ -36,10 +36,10 @@ export interface UserPreferencesFormProps {
 
 export interface AddSeatFeedbackFormProps {
   userId: string;
-  seatNumber: string | "";
+  // seatNumber: string | "";
   feedback: FeedbackData;
   onUserIdChange: (userId: string) => void;
-  onSeatChange: (seatNumber: string) => void;
+  // onSeatChange: (seatNumber: string) => void;
   onFeedbackChange: (feedback: FeedbackData) => void;
   onSubmit: (event: React.FormEvent) => void;
 };

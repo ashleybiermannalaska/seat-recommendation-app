@@ -23,7 +23,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/api/recommendations', (req, res) => {
     const userId = parseInt(req.query.userId as string);
-    const seatNumber = parseInt(req.query.seatNumber as string);
+    const seatNumber = req.query.seatNumber as string;
+    // const seatNumber = parseInt(req.query.seatNumber as string);
 
     if (!userId) {
         res.json('Please provide a userId as a query parameter.');
@@ -37,7 +38,7 @@ app.get('/api/recommendations', (req, res) => {
     // feedback for seat is where the the seatNumber from the query matches the seatId in the historicalFeedback
     const feedbackForSeat = historicalFeedback.find((feedback: any) => feedback.seatId === seatNumber);
 
-    const recommendedSeats = recommendSeats(userPreferences, availableSeats, historicalFeedback, userId, seatNumber);
+    const recommendedSeats = recommendSeats(userPreferences, availableSeats, historicalFeedback, seatNumber);
 
     res.json({
         recommendedSeats: recommendedSeats,
@@ -49,7 +50,7 @@ app.get('/api/recommendations', (req, res) => {
     console.log('Recommended Seats:');
     recommendedSeats.forEach(seat => {
         console.log(`Seat ID: ${seat.id}, Window: ${seat.isWindow}, Aisle: ${seat.isAisle}, Extra Legroom: ${seat.hasExtraLegroom}`);
-        const previousFeedback = getPreviousFeedback(seat.id, userId, historicalFeedback);
+        const previousFeedback = getPreviousFeedback(seat.id, historicalFeedback);
         if (previousFeedback) {
             console.log(`Previous Feedback for Seat ID ${seat.id}: Rating: ${previousFeedback.rating}, Comments: ${previousFeedback.comments}`);
         }
@@ -126,43 +127,6 @@ app.post('/api/feedback', async (req, res) => {
 
     res.status(200).json('User feedback updated successfully.');
 });
-
-// app.post('/api/preferences', async (req, res) => {
-//     const { userId, preferences, feedback } = req.body;
-
-//     if (!userId || !preferences) {
-//         return res.status(400).json('Please provide userId and preferences.');
-//     }
-
-//     let user = db.data.users.find(user => user.id === parseInt(userId));
-//     if (!user) {
-//         // Create a new user if not found
-//         user = {
-//             id: parseInt(userId),
-//             preferences: preferences,
-//             feedback: [feedback]
-//         };
-//         db.data.users.push(user);
-//     } else {
-//         // Update existing user's preferences
-//         user.preferences = preferences;
-
-//         // Check if feedback for the seatId already exists
-//         const existingFeedback = user.feedback.find((f: any) => f.seatId === feedback.seatId);
-//         if (existingFeedback) {
-//             // Update existing feedback
-//             existingFeedback.rating = feedback.rating;
-//             existingFeedback.comments = feedback.comments;
-//         } else {
-//             // Add new feedback
-//             user.feedback.push(feedback);
-//         }
-//     }
-
-//     await db.write();
-
-//     res.status(200).json('User preferences updated successfully.');
-// });
 
 // Serve client static files from the React app
 const __filename = fileURLToPath(import.meta.url);

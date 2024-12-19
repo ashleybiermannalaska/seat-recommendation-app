@@ -14,7 +14,7 @@ const SeatRecommendation = () => {
     /// AddSeatFeedbackForm.tsx
     const [feedbackForSeat, setFeedbackForSeat] = useState();
     const [feedback, setFeedback] = useState({
-        seatId: 0,
+        seatId: "",
         rating: 0,
         comments: "",
     });
@@ -42,7 +42,6 @@ const SeatRecommendation = () => {
             alert("Please enter both User ID and Seat Number.");
         }
     };
-    // TODO: sep preferences updates and feedback updates. may also need a different endpoint for feedback
     const handleUserPreferencesFormSubmit = (event) => {
         event.preventDefault();
         if (userId) {
@@ -82,9 +81,13 @@ const SeatRecommendation = () => {
     return (React.createElement("div", { className: "seat-recommendation-container" },
         React.createElement("div", { className: "forms-container" },
             React.createElement(UserIntakeForm, { userId: userId, seatNumber: seatInQuestion, onUserIdChange: setUserId, onSeatChange: setSeatInQuestion, onSubmit: handleUserIntakeFormSubmit }),
-            React.createElement(AddSeatFeedbackForm, { userId: userId, seatNumber: seatInQuestion, feedback: feedback, onUserIdChange: setUserId, onSeatChange: setSeatInQuestion, onFeedbackChange: setFeedback, onSubmit: handleUserFeedbackFormSubmit })),
+            React.createElement(AddSeatFeedbackForm, { userId: userId, 
+                // seatNumber={seatInQuestion}
+                feedback: feedback, onUserIdChange: setUserId, 
+                // onSeatChange={setSeatInQuestion}
+                onFeedbackChange: setFeedback, onSubmit: handleUserFeedbackFormSubmit })),
         React.createElement("div", { className: "content-container" },
-            React.createElement("h1", null, "Your Previous Opinions on Seat"),
+            React.createElement("auro-header", { display: "600" }, "Your Previous Opinions on Seat"),
             feedbackForSeat ? (React.createElement("div", { key: feedbackForSeat.seatId },
                 React.createElement("div", null,
                     "Seat Number: ",
@@ -95,7 +98,7 @@ const SeatRecommendation = () => {
                 React.createElement("div", null,
                     "Comments: ",
                     feedbackForSeat.comments))) : (React.createElement("div", null, "No previous feedback for this seat")),
-            React.createElement("h1", null, "Recommended Seats:"),
+            React.createElement("auro-header", { display: "600" }, "Recommended Seats:"),
             React.createElement("ul", null, seats.map((seat) => (React.createElement("li", { key: seat.id },
                 React.createElement("div", null,
                     "Seat ID: ",

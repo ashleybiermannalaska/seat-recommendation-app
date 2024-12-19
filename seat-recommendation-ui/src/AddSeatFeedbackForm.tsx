@@ -3,10 +3,8 @@ import { AddSeatFeedbackFormProps } from "../../types";
 
 const AddSeatFeedbackForm: React.FC<AddSeatFeedbackFormProps> = ({
   userId,
-  seatNumber,
   feedback,
   onUserIdChange,
-  onSeatChange,
   onFeedbackChange,
   onSubmit,
 }) => {
@@ -27,15 +25,12 @@ const AddSeatFeedbackForm: React.FC<AddSeatFeedbackFormProps> = ({
         <div className="form-group">
           <label htmlFor="seatNumber">Seat Number:</label>
           <input
-            type="number"
+            type="text"
             id="seatNumber"
-            // value={seatNumber}
             onChange={(e) => {
-              const value = parseInt(e.target.value);
-              // onSeatChange(value);
               onFeedbackChange({
                 ...feedback,
-                seatId: value,
+                seatId: e.target.value,
               });
             }}
           />

@@ -2,7 +2,7 @@ import React from "react";
 import "./UserPreferencesForm.css";
 const UserPreferencesForm = ({ userId, preferences, onUserIdChange, onPreferencesChange, onSubmit, }) => {
     return (React.createElement(React.Fragment, null,
-        React.createElement("h1", null, "Update Your Preferences"),
+        React.createElement("auro-header", { display: "500" }, "Update Your Preferences"),
         React.createElement("form", { onSubmit: onSubmit },
             React.createElement("div", { className: "form-group" },
                 React.createElement("label", { htmlFor: "userId" }, "User ID:"),
@@ -16,6 +16,6 @@ const UserPreferencesForm = ({ userId, preferences, onUserIdChange, onPreference
             React.createElement("div", { className: "form-group" },
                 React.createElement("label", null, "Extra Legroom"),
                 React.createElement("input", { type: "checkbox", name: "extraLegroom", checked: preferences.extraLegroom, onChange: (e) => onPreferencesChange(Object.assign(Object.assign({}, preferences), { extraLegroom: e.target.checked })) })),
-            React.createElement("button", { type: "submit" }, "Update preferences"))));
+            React.createElement("auro-button", { onclick: onSubmit }, "Update preferences"))));
 };
 export default UserPreferencesForm;

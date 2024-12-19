@@ -4,19 +4,19 @@
       "id": 1,
       "preferences": {
         "windowSeat": true,
-        "aisleSeat": true,
-        "extraLegroom": true
+        "aisleSeat": false,
+        "extraLegroom": false
       },
       "feedback": [
         {
-          "seatId": 102,
+          "seatId": "16B",
           "rating": 5,
           "comments": "super"
         },
         {
-          "seatId": 101,
+          "seatId": "16A",
           "rating": 4,
-          "comments": "Love this window seat magic!"
+          "comments": "itsok now 453"
         }
       ]
     },
@@ -29,7 +29,7 @@
       },
       "feedback": [
         {
-          "seatId": 104,
+          "seatId": "16D",
           "rating": 5,
           "comments": "Excellent seat with plenty of legroom!"
         }
@@ -44,87 +44,82 @@
       },
       "feedback": [
         {
-          "seatId": 104,
+          "seatId": "16D",
           "rating": 5,
           "comments": "Excellent seat with plenty of legroom!"
-        },
-        {
-          "seatId": 103,
-          "rating": 5,
-          "comments": "yipppeee seat"
         }
       ]
     }
   ],
   "seats": [
     {
-      "id": 101,
+      "id": "16A",
       "isWindow": true,
       "isAisle": false,
       "hasExtraLegroom": false
     },
     {
-      "id": 102,
+      "id": "16B",
       "isWindow": false,
       "isAisle": true,
       "hasExtraLegroom": false
     },
     {
-      "id": 103,
+      "id": "16C",
       "isWindow": false,
       "isAisle": false,
       "hasExtraLegroom": true
     },
     {
-      "id": 104,
+      "id": "16D",
       "isWindow": false,
       "isAisle": false,
       "hasExtraLegroom": true
     },
     {
-      "id": 105,
+      "id": "16E",
       "isWindow": false,
       "isAisle": true,
       "hasExtraLegroom": false
     },
     {
-      "id": 106,
+      "id": "16F",
       "isWindow": true,
       "isAisle": false,
       "hasExtraLegroom": false
     },
     {
-      "id": 201,
+      "id": "17A",
       "isWindow": true,
       "isAisle": false,
       "hasExtraLegroom": false
     },
     {
-      "id": 202,
+      "id": "17B",
       "isWindow": false,
       "isAisle": true,
       "hasExtraLegroom": false
     },
     {
-      "id": 203,
+      "id": "17C",
       "isWindow": false,
       "isAisle": false,
       "hasExtraLegroom": true
     },
     {
-      "id": 204,
+      "id": "17D",
       "isWindow": false,
       "isAisle": false,
       "hasExtraLegroom": true
     },
     {
-      "id": 205,
+      "id": "17E",
       "isWindow": false,
       "isAisle": true,
       "hasExtraLegroom": false
     },
     {
-      "id": 206,
+      "id": "17F",
       "isWindow": true,
       "isAisle": false,
       "hasExtraLegroom": false
