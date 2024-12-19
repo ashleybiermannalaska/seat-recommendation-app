@@ -109,7 +109,8 @@ const SeatRecommendation: React.FC = () => {
         />
       </div>
       <div className="content-container">
-        <h1>Your Previous Opinions on Seat</h1>
+        {/* @ts-ignore */}
+        <auro-header display="600">Your Previous Opinions on Seat</auro-header>
         {feedbackForSeat ? (
           <div key={feedbackForSeat.seatId}>
             <div>Seat Number: {feedbackForSeat.seatId}</div>
@@ -119,7 +120,8 @@ const SeatRecommendation: React.FC = () => {
         ) : (
           <div>No previous feedback for this seat</div>
         )}
-        <h1>Recommended Seats:</h1>
+        {/* @ts-ignore */}
+        <auro-header display="600">Recommended Seats:</auro-header>
         <ul>
           {seats.map((seat) => (
             <li key={seat.id}>

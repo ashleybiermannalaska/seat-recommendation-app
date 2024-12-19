@@ -11,7 +11,8 @@ const UserPreferencesForm: React.FC<UserPreferencesFormProps> = ({
 }) => {
   return (
     <>
-      <h1>Update Your Preferences</h1>
+      {/* @ts-ignore */}
+      <auro-header display="500">Update Your Preferences</auro-header>
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <label htmlFor="userId">User ID:</label>
@@ -64,7 +65,8 @@ const UserPreferencesForm: React.FC<UserPreferencesFormProps> = ({
             }
           />
         </div>
-        <button type="submit">Update preferences</button>
+        {/* @ts-ignore */}
+        <auro-button onclick={onSubmit}>Update preferences</auro-button>
       </form>
     </>
   );

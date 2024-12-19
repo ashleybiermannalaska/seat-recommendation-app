@@ -12,7 +12,8 @@ const AddSeatFeedbackForm: React.FC<AddSeatFeedbackFormProps> = ({
 }) => {
   return (
     <>
-      <h1>Change or Add Seat Feedback</h1>
+    {/* @ts-ignore */}
+      <auro-header display="500">Change or Add Seat Feedback</auro-header>
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <label htmlFor="userId">User ID:</label>
@@ -68,7 +69,8 @@ const AddSeatFeedbackForm: React.FC<AddSeatFeedbackFormProps> = ({
             }
           />
         </div>
-        <button type="submit">Update seat feedback</button>
+        {/* @ts-ignore */}
+        <auro-button onclick={onSubmit}>Update seat feedback</auro-button>
       </form>
     </>
   );

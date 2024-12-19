@@ -11,14 +11,15 @@ const UserIntakeForm: React.FC<UserIntakeFormProps> = ({
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <h1>Get Recommendations and Preferences:</h1>
+        {/* @ts-ignore */}
+        <auro-header display="500">Get Recommendations and Preferences:</auro-header>
 
         <label htmlFor="userId">User ID:</label>
         <input
           type="text"
           id="userId"
           value={userId || ""}
-          onChange={(event) => onUserIdChange(event.target.value)}
+          onChange={(event: any) => onUserIdChange(event.target.value)}
         />
 
         <label htmlFor="seatNumber">Seat Number:</label>
@@ -29,7 +30,8 @@ const UserIntakeForm: React.FC<UserIntakeFormProps> = ({
           onChange={(event) => onSeatChange(event.target.value)}
         />
       </div>
-      <button type="submit">Get feedback and recommendations</button>
+      {/* @ts-ignore */}
+      <auro-button onclick={onSubmit}>Get Recommendations</auro-button>
     </form>
   );
 };

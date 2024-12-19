@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aurodesignsystem/auro-button": "^8.2.0",
+    "@aurodesignsystem/auro-header": "^2.4.1",
+    "@aurodesignsystem/design-tokens": "^4.12.1",
     "axios": "^1.7.9",
     "cra-template": "1.2.0",
     "react": "^19.0.0",
