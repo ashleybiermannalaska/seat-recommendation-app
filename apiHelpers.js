@@ -21,6 +21,16 @@ export function recommendSeats(userPreferences, availableSeats, historicalFeedba
             } : null, previousOpinionOnSeatInQuestion: seatNumber === seat.id ? previousFeedback : null });
     });
 }
+/**
+ * Sorts seats based on user preferences and historical feedback.
+ * Seats with more matching preferences are ranked higher.
+ * If the match count is the same, seats with previous feedback are ranked higher.
+ *
+ * @param {Seat[]} seats - List of seats to be sorted.
+ * @param {UserPreferences} userPreferences - User preferences for seat selection.
+ * @param {FeedbackData[]} historicalFeedback - Historical feedback data.
+ * @returns {Seat[]} Sorted list of seats.
+ */
 function sortSeatsByPreferencesAndFeedback(seats, userPreferences, historicalFeedback) {
     return seats.sort((a, b) => {
         const aMatchCount = (a.isWindow === userPreferences.windowSeat ? 1 : 0) +

@@ -65,7 +65,7 @@ const AddSeatFeedbackForm: React.FC<AddSeatFeedbackFormProps> = ({
           />
         </div>
         {/* @ts-ignore */}
-        <auro-button onclick={onSubmit}>Update seat feedback</auro-button>
+        <auro-button secondary onclick={onSubmit}>Update seat feedback</auro-button>
       </form>
     </>
   );

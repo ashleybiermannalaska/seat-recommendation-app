@@ -100,10 +100,8 @@ const SeatRecommendation: React.FC = () => {
           />
         <AddSeatFeedbackForm
           userId={userId}
-          // seatNumber={seatInQuestion}
           feedback={feedback}
           onUserIdChange={setUserId}
-          // onSeatChange={setSeatInQuestion}
           onFeedbackChange={setFeedback}
           onSubmit={handleUserFeedbackFormSubmit}
         />
@@ -121,23 +119,23 @@ const SeatRecommendation: React.FC = () => {
           <div>No previous feedback for this seat</div>
         )}
         {/* @ts-ignore */}
-        <auro-header display="600">Recommended Seats:</auro-header>
+        <auro-header display="600">Recommended Seats</auro-header>
         <ul>
           {seats.map((seat) => (
             <li key={seat.id}>
-              <div>Seat ID: {seat.id}</div>
+              <div>{seat.id}</div>
               <div>Window: {seat.isWindow ? "Yes" : "No"}</div>
               <div>Aisle: {seat.isAisle ? "Yes" : "No"}</div>
               <div>Extra Legroom: {seat.hasExtraLegroom ? "Yes" : "No"}</div>
               {seat.previousFeedback && (
                 <div>
-                  Previous Feedback: Rating: {seat.previousFeedback.rating},
+                  Your previous rating of this seat: {seat.previousFeedback.rating},
                   Comments: {seat.previousFeedback.comments}
                 </div>
               )}
               {seat.similarSeats && (
                 <div>
-                  Other seats similar to this seat: Seat ID:{" "}
+                  Other seats similar to this seat:{" "}
                   {seat.similarSeats.map((id) => id).join(", ")}
                 </div>
               )}

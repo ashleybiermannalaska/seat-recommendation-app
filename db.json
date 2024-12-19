@@ -3,9 +3,9 @@
     {
       "id": 1,
       "preferences": {
-        "windowSeat": false,
-        "aisleSeat": true,
-        "extraLegroom": true
+        "windowSeat": true,
+        "aisleSeat": false,
+        "extraLegroom": false
       },
       "feedback": [
         {
@@ -15,8 +15,8 @@
         },
         {
           "seatId": "16A",
-          "rating": 4,
-          "comments": "itsok now 453"
+          "rating": 5,
+          "comments": "Favorite!"
         }
       ]
     },
@@ -120,6 +120,42 @@
     },
     {
       "id": "17F",
+      "isWindow": true,
+      "isAisle": false,
+      "hasExtraLegroom": false
+    },
+    {
+      "id": "18A",
+      "isWindow": true,
+      "isAisle": false,
+      "hasExtraLegroom": false
+    },
+    {
+      "id": "18B",
+      "isWindow": false,
+      "isAisle": true,
+      "hasExtraLegroom": false
+    },
+    {
+      "id": "18C",
+      "isWindow": false,
+      "isAisle": false,
+      "hasExtraLegroom": true
+    },
+    {
+      "id": "18D",
+      "isWindow": true,
+      "isAisle": false,
+      "hasExtraLegroom": true
+    },
+    {
+      "id": "18E",
+      "isWindow": false,
+      "isAisle": true,
+      "hasExtraLegroom": true
+    },
+    {
+      "id": "18F",
       "isWindow": true,
       "isAisle": false,
       "hasExtraLegroom": false

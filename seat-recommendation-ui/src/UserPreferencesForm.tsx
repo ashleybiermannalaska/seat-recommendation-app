@@ -66,7 +66,7 @@ const UserPreferencesForm: React.FC<UserPreferencesFormProps> = ({
           />
         </div>
         {/* @ts-ignore */}
-        <auro-button onclick={onSubmit}>Update preferences</auro-button>
+        <auro-button secondary onclick={onSubmit}>Update preferences</auro-button>
       </form>
     </>
   );
