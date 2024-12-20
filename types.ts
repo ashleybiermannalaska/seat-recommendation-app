@@ -36,10 +36,8 @@ export interface UserPreferencesFormProps {
 
 export interface AddSeatFeedbackFormProps {
   userId: string;
-  // seatNumber: string | "";
   feedback: FeedbackData;
   onUserIdChange: (userId: string) => void;
-  // onSeatChange: (seatNumber: string) => void;
   onFeedbackChange: (feedback: FeedbackData) => void;
   onSubmit: (event: React.FormEvent) => void;
 };

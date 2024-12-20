@@ -68,9 +68,34 @@ ul {
 li {
   background-color: var(--ds-color-background-lightest);
   border-radius: var(--ds-border-radius);
-  border: var(--ds-size-50) solid var(--ds-color-border-disabled-default);
+  border: 1px solid var(--ds-color-border-disabled-default);
   margin-bottom: var(--ds-size-150);
   padding: var(--ds-size-150);
+}
+
+.seat-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.seat-details {
+  flex: 2;
+}
+
+.cta-container {
+  flex: 1;
+  text-align: right;
+  align-self: flex-end;
+}
+
+.highlight {
+  border-radius: var(--ds-border-radius);
+  border: 1px solid var(--ds-color-ui-default-default);
+}
+
+.perfect-match {
+  color: var(--ds-color-alert-notification-default);
 }
 
 li div {

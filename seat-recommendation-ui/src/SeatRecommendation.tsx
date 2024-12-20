@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 // @ts-ignore
 import UserIntakeForm from "./UserIntakeForm.tsx";
-// @ts-ignore
-import UserPreferencesForm, { UserPreferences } from "./UserPreferencesForm.tsx";
+import UserPreferencesForm, {
+  // @ts-ignore
+  UserPreferences,
+  // @ts-ignore
+} from "./UserPreferencesForm.tsx";
 // @ts-ignore
 import AddSeatFeedbackForm from "./AddSeatFeedbackForm.tsx";
 import { FeedbackData, SeatForUI as Seat } from "../../types.js";
+// @ts-ignore
+import { getMatchCount } from "./helpers.tsx";
 
 const SeatRecommendation: React.FC = () => {
   // UserIntakeForm.tsx
@@ -28,6 +33,16 @@ const SeatRecommendation: React.FC = () => {
     aisleSeat: false,
     extraLegroom: false,
   });
+
+  // add className to seats that are a perfect match
+  useEffect(() => {
+    const listItems = document.querySelectorAll("li");
+    listItems.forEach((item) => {
+      if (item.querySelector(".perfect-match")) {
+        item.classList.add("highlight");
+      }
+    });
+  }, [seats]);
 
   const handleUserIntakeFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -97,7 +112,7 @@ const SeatRecommendation: React.FC = () => {
           onUserIdChange={setUserId}
           onSeatChange={setSeatInQuestion}
           onSubmit={handleUserIntakeFormSubmit}
-          />
+        />
         <AddSeatFeedbackForm
           userId={userId}
           feedback={feedback}
@@ -107,38 +122,54 @@ const SeatRecommendation: React.FC = () => {
         />
       </div>
       <div className="content-container">
-        {/* @ts-ignore */}
-        <auro-header display="600">Your Previous Opinions on Seat</auro-header>
-        {feedbackForSeat ? (
+        {feedbackForSeat && (
           <div key={feedbackForSeat.seatId}>
-            <div>Seat Number: {feedbackForSeat.seatId}</div>
+            {/* @ts-ignore */}
+            <auro-header display="600">
+              Your Previous Opinions on {feedbackForSeat.seatId}
+              {/* @ts-ignore */}
+            </auro-header>
             <div>Rating: {feedbackForSeat.rating}</div>
             <div>Comments: {feedbackForSeat.comments}</div>
           </div>
-        ) : (
-          <div>No previous feedback for this seat</div>
         )}
         {/* @ts-ignore */}
         <auro-header display="600">Recommended Seats</auro-header>
         <ul>
           {seats.map((seat) => (
-            <li key={seat.id}>
-              <div>{seat.id}</div>
-              <div>Window: {seat.isWindow ? "Yes" : "No"}</div>
-              <div>Aisle: {seat.isAisle ? "Yes" : "No"}</div>
-              <div>Extra Legroom: {seat.hasExtraLegroom ? "Yes" : "No"}</div>
-              {seat.previousFeedback && (
-                <div>
-                  Your previous rating of this seat: {seat.previousFeedback.rating},
-                  Comments: {seat.previousFeedback.comments}
-                </div>
-              )}
-              {seat.similarSeats && (
-                <div>
-                  Other seats similar to this seat:{" "}
-                  {seat.similarSeats.map((id) => id).join(", ")}
-                </div>
-              )}
+            <li key={seat.id} className="seat-item">
+              <div className="seat-details">
+                {/* @ts-ignore */}
+                <auro-header display="400">{seat.id}</auro-header>
+                {getMatchCount(seat, preferences)}
+                {seat.previousFeedback && (
+                  <div>
+                    Your rating and notes: '{seat.previousFeedback.rating} out
+                    of 5. {seat.previousFeedback.comments}'
+                  </div>
+                )}
+                <div>Window: {seat.isWindow ? "Yes" : "No"}</div>
+                <div>Aisle: {seat.isAisle ? "Yes" : "No"}</div>
+                <div>Extra Legroom: {seat.hasExtraLegroom ? "Yes" : "No"}</div>
+                {seat.similarSeats && (
+                  <div>
+                    Similar seats:{" "}
+                    {seat.similarSeats.map((id) => id).join(", ")}
+                  </div>
+                )}
+              </div>
+              <div className="cta-container">
+                {/* @ts-ignore */}
+                <auro-button
+                  secondary
+                  onclick={() => {
+                    alert("... pretend this button selects the seat");
+                  }}
+                >
+                  Select seat
+                  {/* @ts-ignore */}
+                </auro-button>
+              </div>
             </li>
           ))}
         </ul>

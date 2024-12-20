@@ -10,13 +10,18 @@
       "feedback": [
         {
           "seatId": "16B",
-          "rating": 5,
-          "comments": "super"
+          "rating": 2,
+          "comments": "meh, it was fine"
         },
         {
           "seatId": "16A",
           "rating": 5,
           "comments": "Favorite!"
+        },
+        {
+          "seatId": "16D",
+          "rating": 4,
+          "comments": "It was pretty good, but not the best"
         }
       ]
     },
